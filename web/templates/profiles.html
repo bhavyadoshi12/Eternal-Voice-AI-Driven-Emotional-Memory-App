@@ -1,0 +1,117 @@
+<div class="fade-in">
+    <div class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Memory Profiles</h1>
+                    <p class="text-gray-600 text-lg">Create and manage profiles for memory reconstruction</p>
+                </div>
+                <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                    <i class="fas fa-users text-white text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div class="lg:col-span-3">
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Create New Profile</h2>
+
+       <form id="profileForm" class="space-y-4" autocomplete="off" novalidate onsubmit="event.preventDefault(); profilesManager.createProfileFromForm(); return false;">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+                            <input type="text" name="name" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                   placeholder="Enter full name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Relationship</label>
+                            <input type="text" name="relationship" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                   placeholder="e.g., Mother, Friend, Colleague">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea name="description" rows="3"
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                  placeholder="Optional notes about this person..."></textarea>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                        <div class="flex items-start space-x-3">
+                            <input type="checkbox" name="consent_given" id="consentCheckbox" value="true" required
+                                   class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1">
+                            <div>
+                                <label for="consentCheckbox" class="block text-sm font-medium text-blue-700 mb-1">
+                                    Data Usage Consent
+                                </label>
+                                <p class="text-sm text-blue-600">
+                                    I confirm that I have permission to use this data for memory preservation purposes. 
+                                    I understand that all data is stored locally and processed with AI to reconstruct communication patterns.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3 pt-4">
+                        <button type="reset" class="btn btn-secondary flex-1">
+                            <i class="fas fa-times mr-2"></i>Clear
+                        </button>
+                        <button type="submit" class="btn btn-primary flex-1">
+                            <i class="fas fa-plus mr-2"></i>Create Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Existing Profiles</h2>
+                    <button id="refreshProfilesBtn" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                </div>
+                
+                <div id="profilesList" class="space-y-4">
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-gray-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Loading Profiles...</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-chart-pie text-blue-500 mr-2"></i>
+                    Profile Statistics
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Total Profiles</span>
+                        <span id="totalProfiles" class="font-bold text-blue-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Active Profiles</span>
+                        <span id="activeProfiles" class="font-bold text-green-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Memory Files</span>
+                        <span id="totalFiles" class="font-bold text-purple-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Conversations</span>
+                        <span id="totalConversations" class="font-bold text-orange-600">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

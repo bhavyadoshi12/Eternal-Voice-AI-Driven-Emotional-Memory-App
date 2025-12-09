@@ -1,0 +1,231 @@
+
+<div class="fade-in">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Analytics Dashboard</h1>
+                    <p class="text-gray-600 text-lg">Visual insights into memory patterns and emotional tones</p>
+                </div>
+                <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-teal-600 rounded-2xl flex items-center justify-center">
+                    <i class="fas fa-chart-bar text-white text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Selection -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mb-8">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <h2 class="text-xl font-bold text-gray-800">Select Profile for Analysis</h2>
+            <div class="flex items-center space-x-4">
+                <select id="vizProfileSelector" class="bg-gray-50 border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors min-w-64">
+                    <option value="">Choose a profile...</option>
+                </select>
+                <button id="refreshDataBtn" class="btn btn-outline-primary">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center py-12 hidden">
+        <div class="loading-spinner blue mx-auto mb-4"></div>
+        <h3 class="text-lg font-semibold text-gray-700">Loading Analytics Data</h3>
+        <p class="text-gray-500">Processing emotional patterns and conversation insights...</p>
+    </div>
+
+    <!-- Analytics Content -->
+    <div id="analyticsContent" class="hidden">
+        <!-- Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stats-card bg-gradient-to-br from-blue-500 to-blue-600">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-blue-100 text-sm">Total Conversations</p>
+                        <h3 id="totalConversations" class="text-2xl font-bold text-white">0</h3>
+                    </div>
+                    <i class="fas fa-comments text-white text-xl opacity-80"></i>
+                </div>
+            </div>
+
+            <div class="stats-card bg-gradient-to-br from-green-500 to-green-600">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100 text-sm">Words Analyzed</p>
+                        <h3 id="wordsAnalyzed" class="text-2xl font-bold text-white">0</h3>
+                    </div>
+                    <i class="fas fa-font text-white text-xl opacity-80"></i>
+                </div>
+            </div>
+
+            <div class="stats-card bg-gradient-to-br from-purple-500 to-purple-600">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-purple-100 text-sm">Emotion Patterns</p>
+                        <h3 id="emotionPatterns" class="text-2xl font-bold text-white">0</h3>
+                    </div>
+                    <i class="fas fa-heart text-white text-xl opacity-80"></i>
+                </div>
+            </div>
+
+            <div class="stats-card bg-gradient-to-br from-orange-500 to-orange-600">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-orange-100 text-sm">Memory Density</p>
+                        <h3 id="memoryDensity" class="text-2xl font-bold text-white">0%</h3>
+                    </div>
+                    <i class="fas fa-brain text-white text-xl opacity-80"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Emotion Timeline -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800">Emotion Timeline</h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-500">Time Range:</span>
+                        <select id="timelineRange" class="text-sm border border-gray-300 rounded-lg px-2 py-1">
+                            <option value="7">Last 7 days</option>
+                            <option value="30" selected>Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                            <option value="365">Last year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="h-80">
+                    <canvas id="emotionTimelineChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Word Frequency -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-6">Most Used Words</h3>
+                <div class="h-80">
+                    <canvas id="wordFrequencyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Emotion Distribution -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-6">Emotion Distribution</h3>
+                <div class="h-80">
+                    <canvas id="emotionDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Conversation Patterns -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-6">Conversation Patterns</h3>
+                <div class="h-80">
+                    <canvas id="conversationPatternsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Insights -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Writing Style Analysis -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-pen-fancy text-blue-500 mr-2"></i>
+                    Writing Style
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">Sentence Complexity</span>
+                            <span class="font-semibold" id="sentenceComplexity">-</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="complexityBar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">Vocabulary Diversity</span>
+                            <span class="font-semibold" id="vocabularyDiversity">-</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="diversityBar" class="bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">Emotional Expressiveness</span>
+                            <span class="font-semibold" id="emotionalExpressiveness">-</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="expressivenessBar" class="bg-purple-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Emotions -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-smile text-yellow-500 mr-2"></i>
+                    Emotional Profile
+                </h3>
+                <div id="topEmotions" class="space-y-3">
+                    <!-- Emotions will be populated here -->
+                </div>
+            </div>
+
+            <!-- Conversation Insights -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-lightbulb text-green-500 mr-2"></i>
+                    Key Insights
+                </h3>
+                <div id="conversationInsights" class="space-y-3">
+                    <!-- Insights will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Export -->
+        <div class="mt-8 bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Export Analytics Data</h3>
+                    <p class="text-gray-600">Download comprehensive reports and visualizations</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button id="exportPDFBtn" class="btn btn-outline-danger">
+                        <i class="fas fa-file-pdf mr-2"></i>Export PDF
+                    </button>
+                    <button id="exportJSONBtn" class="btn btn-outline-primary">
+                        <i class="fas fa-file-code mr-2"></i>Export JSON
+                    </button>
+                    <button id="exportImageBtn" class="btn btn-outline-success">
+                        <i class="fas fa-image mr-2"></i>Export Charts
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- No Data State -->
+    <div id="noDataState" class="text-center py-16 hidden">
+        <div class="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-chart-pie text-gray-400 text-3xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">No Analytics Data Available</h3>
+        <p class="text-gray-500 mb-6">Select a profile with conversation history to view insights</p>
+        <a href="#chat" class="btn btn-primary" data-page="chat">
+            <i class="fas fa-comments mr-2"></i>Start a Conversation
+        </a>
+    </div>
+</div>
+
+<script src="/static/js/charts.js"></script>

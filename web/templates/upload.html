@@ -1,0 +1,207 @@
+
+<div class="fade-in">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Upload Files</h1>
+                    <p class="text-gray-600 text-lg">Add voice recordings, chat logs, and images to build memory profiles</p>
+                </div>
+                <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-blue-600 rounded-2xl flex items-center justify-center">
+                    <i class="fas fa-cloud-upload-alt text-white text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Upload Section -->
+        <div class="lg:col-span-2">
+            <!-- Profile Selection -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Select Profile</h2>
+                <div class="flex flex-wrap gap-3" id="profileSelection">
+                    <div class="loading-spinner small blue mx-auto"></div>
+                </div>
+            </div>
+
+            <!-- Upload Zone -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+                <div id="uploadZone" class="upload-zone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Drag & Drop Files</h3>
+                    <p class="text-gray-500 mb-4">Upload audio, text, or image files</p>
+                    <p class="text-sm text-gray-400 mb-6">
+                        Supported formats: WAV, MP3, JPG, PNG, TXT, PDF
+                    </p>
+                    <button id="browseButton" class="btn btn-primary btn-lg">
+                        <i class="fas fa-folder-open mr-2"></i>
+                        Browse Files
+                    </button>
+                    <input type="file" id="fileInput" multiple class="hidden" 
+                           accept=".wav,.mp3,.m4a,.flac,.jpg,.jpeg,.png,.gif,.txt,.pdf,.doc,.docx">
+                </div>
+
+                <!-- File List -->
+                <div id="fileList" class="mt-6 space-y-3 hidden">
+                    <h4 class="font-semibold text-gray-700 mb-3">Selected Files</h4>
+                    <div id="selectedFiles"></div>
+                </div>
+
+                <!-- Upload Button -->
+                <div class="mt-6 flex justify-end">
+                    <button id="uploadButton" class="btn btn-success btn-lg hidden">
+                        <i class="fas fa-upload mr-2"></i>
+                        Start Upload
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div id="progressSection" class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mt-6 hidden">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Upload Progress</h3>
+                <div id="uploadProgress"></div>
+            </div>
+        </div>
+
+        <!-- Instructions & Tips -->
+        <div class="space-y-6">
+            <!-- File Requirements -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                    File Requirements
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-music text-green-500 mt-1"></i>
+                        <div>
+                            <p class="font-medium text-gray-700">Audio Files</p>
+                            <p class="text-sm text-gray-500">WAV, MP3, M4A, FLAC (max 50MB)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-image text-purple-500 mt-1"></i>
+                        <div>
+                            <p class="font-medium text-gray-700">Images</p>
+                            <p class="text-sm text-gray-500">JPG, PNG, GIF (max 20MB)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-file-alt text-orange-500 mt-1"></i>
+                        <div>
+                            <p class="font-medium text-gray-700">Text Files</p>
+                            <p class="text-sm text-gray-500">TXT, PDF, DOC, DOCX (max 10MB)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="bg-blue-50 rounded-2xl shadow-sm p-6 border border-blue-200">
+                <h3 class="text-lg font-semibold text-blue-800 mb-3">
+                    <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                    Tips for Better Results
+                </h3>
+                <ul class="space-y-2 text-sm text-blue-700">
+                    <li class="flex items-start space-x-2">
+                        <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                        <span>Use clear audio recordings for better transcription</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                        <span>Upload multiple conversations to learn speaking style</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                        <span>Include both formal and casual communication samples</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                <div class="space-y-3">
+                    <button id="demoFilesBtn" class="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-magic text-purple-500"></i>
+                            <span class="font-medium text-gray-700">Load Demo Files</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    
+                    <button id="clearFilesBtn" class="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-red-300 hover:bg-red-50 transition-all">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-trash text-red-500"></i>
+                            <span class="font-medium text-gray-700">Clear All Files</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Uploaded Files History -->
+    <div class="mt-8 bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Recently Uploaded Files</h2>
+            <button id="refreshFilesBtn" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-sync-alt mr-2"></i>
+                Refresh
+            </button>
+        </div>
+        <div id="uploadedFilesList">
+            <div class="text-center py-8">
+                <i class="fas fa-folder-open text-gray-300 text-3xl mb-3"></i>
+                <p class="text-gray-500">No files uploaded yet</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Creation Modal -->
+<div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md mx-4">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Create New Profile</h3>
+        <form id="profileForm">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+                    <input type="text" name="name" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Relationship</label>
+                    <input type="text" name="relationship" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                           placeholder="e.g., Mother, Friend, Colleague">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea name="description" rows="3"
+                              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                              placeholder="Optional notes about this person..."></textarea>
+                </div>
+                <div class="flex items-center space-x-3 p-4 bg-blue-50 rounded-xl">
+                    <input type="checkbox" name="consent_given" id="consentCheckbox" required
+                           class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="consentCheckbox" class="text-sm text-blue-700">
+                        I have permission to use this data for memory preservation purposes
+                    </label>
+                </div>
+            </div>
+            <div class="flex space-x-3 mt-6">
+                <button type="button" id="cancelProfileBtn" 
+                        class="flex-1 btn btn-secondary">Cancel</button>
+                <button type="submit" class="flex-1 btn btn-primary">
+                    Create Profile
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/static/js/upload.js"></script>

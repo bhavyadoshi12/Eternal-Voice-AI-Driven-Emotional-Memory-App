@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternal Voice - {{ title if title else "AI Memory Reconstruction" }}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/transitions.css">
+    <link rel="stylesheet" href="/static/css/buttons.css">
+    <link rel="stylesheet" href="/static/css/progress.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-white bg-opacity-90 z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <h2 class="text-xl font-semibold text-gray-700">Eternal Voice</h2>
+            <p class="text-gray-500 mt-2">Loading your memories...</p>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation -->
+        {% include "components/sidebar.html" %}
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            {% include "components/header.html" %}
+            
+            <!-- Page Content -->
+            <main class="flex-1 overflow-y-auto p-6 transition-all duration-300 transform" id="main-content">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-40 space-y-2 max-w-sm"></div>
+
+    <!-- JavaScript Files -->
+    <script src="/static/js/utils/animations.js"></script>
+    <script src="/static/js/utils/notifications.js"></script>
+    <script src="/static/js/utils/navigation.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/profiles.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+    <!-- Page Specific Scripts -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>

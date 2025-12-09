@@ -1,0 +1,106 @@
+<!-- Sidebar -->
+<aside class="w-64 bg-white shadow-xl transform transition-all duration-300 ease-in-out" id="sidebar">
+    <div class="flex flex-col h-full">
+        
+        <!-- Logo -->
+        <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-wave-square text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">Eternal Voice</h1>
+                    <p class="text-xs text-gray-500">AI Memory System</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                <i class="fas fa-home mr-3"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#profiles" class="nav-item" data-page="profiles">
+                <i class="fas fa-user-circle mr-3"></i>
+                <span>Profiles</span>
+            </a>
+
+            <a href="#upload" class="nav-item" data-page="upload">
+                <i class="fas fa-cloud-upload-alt mr-3"></i>
+                <span>Upload Files</span>
+            </a>
+
+            <a href="#transcription" class="nav-item" data-page="transcription">
+                <i class="fas fa-file-audio mr-3"></i>
+                <span>Transcription</span>
+            </a>
+
+            <a href="#chat" class="nav-item" data-page="chat">
+                <i class="fas fa-comments mr-3"></i>
+                <span>Chat</span>
+            </a>
+
+            <a href="#visualization" class="nav-item" data-page="visualization">
+                <i class="fas fa-chart-bar mr-3"></i>
+                <span>Analytics</span>
+            </a>
+        </nav>
+
+        <!-- User Profile / Status -->
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-check text-white text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-700">System Ready</p>
+                    <p class="text-xs text-gray-500">All services active</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aside>
+
+<style>
+/* ========== FIXED: Pure CSS (no @apply) ========== */
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #4b5563; /* gray-600 */
+    border-radius: 0.75rem; /* rounded-xl */
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+/* Hover */
+.nav-item:hover {
+    background-color: #eff6ff;  /* blue-50 */
+    color: #2563eb;             /* blue-600 */
+    transform: translateY(-2px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Active Link */
+.nav-item.active {
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(59,130,246,0.4);
+}
+
+/* Icon smooth transform */
+.nav-item i {
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hover icon bounce */
+.nav-item:hover i {
+    transform: scale(1.10);
+}
+</style>

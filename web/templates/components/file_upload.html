@@ -1,0 +1,376 @@
+<div id="fileUploadComponentWrapper">
+  <div id="fileUploadComponent" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+      <div id="uploadZone" class="upload-zone relative cursor-pointer">
+          
+          <input type="file" id="fileInput" multiple 
+                 style="opacity: 0; position: absolute; z-index: -1; width: 1px; height: 1px;" 
+                 accept=".wav,.mp3,.m4a,.flac,.jpg,.jpeg,.png,.gif,.txt,.pdf,.doc,.docx">
+          
+          <div class="text-center pointer-events-none">
+              <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4 transition-colors duration-300"></i>
+              <h3 class="text-xl font-semibold text-gray-700 mb-2">Drag & Drop Files</h3>
+              <p class="text-gray-500 mb-4">or click to browse your computer</p>
+              
+              <div class="flex flex-wrap justify-center gap-2 mb-4">
+                  <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      <i class="fas fa-music mr-1"></i>Audio
+                  </span>
+                  <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                      <i class="fas fa-image mr-1"></i>Images
+                  </span>
+                  <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
+                      <i class="fas fa-file-alt mr-1"></i>Text
+                  </span>
+              </div>
+              
+              <p class="text-sm text-gray-400">
+                  Supported formats: WAV, MP3, JPG, PNG, TXT, PDF
+              </p>
+          </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mt-6 justify-center">
+          <button class="file-filter-btn active px-4 py-2 rounded-lg border border-blue-500 bg-blue-500 text-white text-sm font-medium transition-colors" data-filter="all">All Files</button>
+          <button class="file-filter-btn px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:border-blue-300 hover:text-blue-600 text-sm font-medium transition-colors" data-filter="audio">
+              <i class="fas fa-music mr-2"></i>Audio
+          </button>
+          <button class="file-filter-btn px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:border-green-300 hover:text-green-600 text-sm font-medium transition-colors" data-filter="image">
+              <i class="fas fa-image mr-2"></i>Images
+          </button>
+          <button class="file-filter-btn px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:border-orange-300 hover:text-orange-600 text-sm font-medium transition-colors" data-filter="text">
+              <i class="fas fa-file-alt mr-2"></i>Text
+          </button>
+      </div>
+
+      <div id="selectedFilesContainer" class="mt-6 hidden">
+          <div class="flex items-center justify-between mb-4">
+              <h4 class="font-semibold text-gray-700">Selected Files</h4>
+              <button id="clearAllFiles" class="text-red-500 hover:text-red-700 text-sm font-medium transition-colors">
+                  <i class="fas fa-times mr-1"></i>Clear All
+              </button>
+          </div>
+          
+          <div id="selectedFilesList" class="space-y-3 max-h-64 overflow-y-auto"></div>
+
+          <div class="flex space-x-3 mt-6 pt-4 border-t border-gray-200">
+              <button id="cancelUpload" class="flex-1 btn btn-secondary">
+                  <i class="fas fa-times mr-2"></i>Cancel
+              </button>
+              <button id="startUpload" class="flex-1 btn btn-primary">
+                  <i class="fas fa-upload mr-2"></i>Upload Files
+              </button>
+          </div>
+      </div>
+
+      <div class="mt-6 pt-6 border-t border-gray-200">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <button class="quick-action-btn flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all group">
+                  <div class="text-center">
+                      <i class="fas fa-folder-open text-2xl text-gray-400 group-hover:text-blue-500 mb-2 transition-colors"></i>
+                      <p class="text-sm font-medium text-gray-600 group-hover:text-blue-700">Browse Files</p>
+                  </div>
+              </button>
+              
+              <button class="quick-action-btn flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all group">
+                  <div class="text-center">
+                      <i class="fas fa-microphone text-2xl text-gray-400 group-hover:text-green-500 mb-2 transition-colors"></i>
+                      <p class="text-sm font-medium text-gray-600 group-hover:text-green-700">Record Audio</p>
+                  </div>
+              </button>
+              
+              <button class="quick-action-btn flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-purple-400 hover:bg-purple-50 transition-all group">
+                  <div class="text-center">
+                      <i class="fas fa-camera text-2xl text-gray-400 group-hover:text-purple-500 mb-2 transition-colors"></i>
+                      <p class="text-sm font-medium text-gray-600 group-hover:text-purple-700">Take Photo</p>
+                  </div>
+              </button>
+          </div>
+      </div>
+  </div>
+
+  <div id="filePreviewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-2xl p-6 w-full max-w-2xl mx-4 max-h-96 overflow-hidden flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xl font-bold text-gray-800">File Preview</h3>
+              <button id="closePreviewModal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                  <i class="fas fa-times text-xl"></i>
+              </button>
+          </div>
+          <div id="previewContent" class="flex-1 overflow-y-auto"></div>
+          <div class="flex space-x-3 mt-6 pt-4 border-t border-gray-200">
+              <button id="removePreviewFile" class="btn btn-outline-danger">
+                  <i class="fas fa-trash mr-2"></i>Remove File
+              </button>
+              <button id="closePreview" class="btn btn-secondary ml-auto">Close</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<style>
+/* Basic Styles (Same as before) */
+.upload-zone {
+  border: 2px dashed #d1d5db;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.upload-zone.drag-over, .upload-zone:hover {
+  border-color: #60a5fa;
+  background: #eff6ff;
+  transform: scale(1.02);
+}
+.upload-zone i { color: #9ca3af; transition: color 0.3s; }
+.upload-zone:hover i { color: #2563eb; }
+
+.file-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .75rem; background: #f8fafc; border-radius: .5rem;
+  border: 1px solid #e5e7eb; transition: all .2s ease;
+}
+.file-item:hover { border-color: #93c5fd; background: #eff6ff; }
+
+/* Filter Buttons */
+.file-filter-btn.active { border-color: #2563eb; background: #2563eb; color: #fff; }
+.quick-action-btn:hover { transform: scale(1.03); }
+
+/* Buttons & Utils */
+.btn { padding: .6rem 1rem; border-radius: .6rem; font-weight: 600; cursor: pointer; border: none; }
+.btn-primary { background: #2563eb; color: #fff; }
+.btn-secondary { background: #475569; color: #fff; }
+.btn-outline-danger { background: transparent; border: 1px solid #ef4444; color: #ef4444; }
+.hidden { display: none !important; }
+</style>
+
+<script>
+class FileUploadComponent {
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.selectedFiles = [];
+        this.currentFilter = "all";
+        this.currentPreviewFileId = null;
+        this.init();
+    }
+
+    init() {
+        this.setupEvents();
+    }
+
+    setupEvents() {
+        const fileInput = this.container.querySelector("#fileInput");
+        const uploadZone = this.container.querySelector("#uploadZone");
+
+        // 1. CLICK HANDLING (Fixed for Hidden Input)
+        // Kyunki input ab hidden/z-index:-1 hai, humein zone par click hone par
+        // input ko manually trigger karna padega.
+        uploadZone.addEventListener('click', (e) => {
+            // Agar user ne input par hi click kiya hai (edge case), toh loop na banaye
+            if (e.target !== fileInput) {
+                fileInput.click();
+            }
+        });
+
+        // 2. FILE SELECTION
+        fileInput.addEventListener("change", e => this.addFiles(e.target.files));
+
+        // 3. DRAG & DROP
+        // Prevent default behaviors for the whole zone
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        uploadZone.addEventListener("dragover", () => uploadZone.classList.add("drag-over"));
+        uploadZone.addEventListener("dragleave", () => uploadZone.classList.remove("drag-over"));
+        
+        uploadZone.addEventListener("drop", e => {
+            uploadZone.classList.remove("drag-over");
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            this.addFiles(files);
+        });
+
+        // 4. Quick Actions (Browse Button)
+        this.container.querySelectorAll(".quick-action-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                // Prevent bubbling to uploadZone if it's inside it (it's not, but good practice)
+                e.stopPropagation(); 
+                
+                const text = btn.textContent || "";
+                if (text.includes("Browse")) {
+                    fileInput.click();
+                } else {
+                    alert("Feature coming soon!");
+                }
+            });
+        });
+
+        // Other event listeners (Filters, Clear, Upload, Preview) - Same as before
+        this.container.querySelectorAll(".file-filter-btn").forEach(btn => {
+            btn.addEventListener("click", () => this.setFilter(btn.getAttribute('data-filter')));
+        });
+
+        const clearAllBtn = this.container.querySelector("#clearAllFiles");
+        if (clearAllBtn) clearAllBtn.addEventListener("click", () => this.clearAll());
+
+        const startUploadBtn = this.container.querySelector("#startUpload");
+        if (startUploadBtn) startUploadBtn.addEventListener("click", () => this.startUpload());
+
+        const cancelUploadBtn = this.container.querySelector("#cancelUpload");
+        if (cancelUploadBtn) cancelUploadBtn.addEventListener("click", () => this.clearAll());
+
+        // Preview Modal Events
+        const closePreviewModal = document.getElementById("closePreviewModal");
+        if (closePreviewModal) closePreviewModal.addEventListener("click", () => this.hidePreview());
+        
+        const closePreview = document.getElementById("closePreview");
+        if (closePreview) closePreview.addEventListener("click", () => this.hidePreview());
+        
+        const removePreviewFile = document.getElementById("removePreviewFile");
+        if (removePreviewFile) removePreviewFile.addEventListener("click", () => {
+            if (this.currentPreviewFileId) this.removeFile(this.currentPreviewFileId);
+        });
+    }
+
+    addFiles(fileList) {
+        const files = Array.from(fileList || []);
+        files.forEach(file => {
+            const id = Math.random().toString(36).slice(2, 9);
+            this.selectedFiles.push({
+                id,
+                file,
+                size: file.size,
+                type: this.detectType(file.name),
+                status: "pending"
+            });
+        });
+        
+        // Reset input value taaki same file dobara select ho sake
+        const fileInput = this.container.querySelector("#fileInput");
+        if(fileInput) fileInput.value = '';
+
+        this.render();
+    }
+
+    detectType(name) {
+        const ext = (name.split(".").pop() || "").toLowerCase();
+        if (["jpg","jpeg","png","gif"].includes(ext)) return "image";
+        if (["mp3","wav","m4a","flac"].includes(ext)) return "audio";
+        return "text";
+    }
+
+    render() {
+        const list = this.container.querySelector("#selectedFilesList");
+        list.innerHTML = "";
+        const filtered = this.currentFilter === "all"
+            ? this.selectedFiles
+            : this.selectedFiles.filter(f => f.type === this.currentFilter);
+
+        if (filtered.length === 0) {
+            this.container.querySelector("#selectedFilesContainer").classList.add("hidden");
+            return;
+        }
+
+        // Show container
+        this.container.querySelector("#selectedFilesContainer").classList.remove("hidden");
+
+        filtered.forEach(f => {
+            const div = document.createElement("div");
+            div.className = "file-item";
+            div.innerHTML = `
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:40px;height:40px;border-radius:8px;background:${this.getColor(f.type)};display:flex;align-items:center;justify-content:center;">
+                        <i class="${this.getIcon(f.type)}" style="color:white"></i>
+                    </div>
+                    <div style="min-width:0;">
+                        <p style="font-weight:600;margin:0;color:#1f2937;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;">${f.file.name}</p>
+                        <p style="margin:0;font-size:0.875rem;color:#64748b;">${(f.size/1024/1024).toFixed(2)} MB</p>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                    <button class="preview-btn" style="padding:8px;border:none;background:transparent;color:#2563eb;cursor:pointer;"><i class="fas fa-eye"></i></button>
+                    <button class="remove-btn" style="padding:8px;border:none;background:transparent;color:#ef4444;cursor:pointer;"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+
+            div.querySelector(".remove-btn").addEventListener("click", () => this.removeFile(f.id));
+            div.querySelector(".preview-btn").addEventListener("click", () => this.previewFile(f));
+            list.appendChild(div);
+        });
+    }
+
+    previewFile(fileObj) {
+        this.currentPreviewFileId = fileObj.id;
+        const modal = document.getElementById("filePreviewModal");
+        const area = document.getElementById("previewContent");
+        area.innerHTML = "";
+
+        if (fileObj.type === "image") {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(fileObj.file);
+            img.style.maxWidth = "100%";
+            img.style.borderRadius = "8px";
+            area.appendChild(img);
+        } else if (fileObj.type === "text") {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const pre = document.createElement("pre");
+                pre.style.background = "#f8fafc";
+                pre.style.padding = "12px";
+                pre.textContent = e.target.result;
+                area.appendChild(pre);
+            };
+            reader.readAsText(fileObj.file);
+        } else {
+            area.innerHTML = '<p class="text-center py-8 text-gray-500">Preview not available for this file type.</p>';
+        }
+        modal.classList.remove("hidden");
+    }
+
+    hidePreview() {
+        const modal = document.getElementById("filePreviewModal");
+        if (modal) modal.classList.add("hidden");
+    }
+
+    removeFile(id) {
+        this.selectedFiles = this.selectedFiles.filter(f => f.id !== id);
+        this.render();
+        this.hidePreview();
+    }
+
+    clearAll() {
+        if (confirm("Clear all selected files?")) {
+            this.selectedFiles = [];
+            this.render();
+        }
+    }
+
+    setFilter(filter) {
+        this.currentFilter = filter;
+        document.querySelectorAll(".file-filter-btn").forEach(b => b.classList.remove("active"));
+        const btn = document.querySelector(`.file-filter-btn[data-filter="${filter}"]`);
+        if (btn) btn.classList.add("active");
+        this.render();
+    }
+
+    getIcon(type) {
+        return type === "image" ? "fas fa-image" : (type === "audio" ? "fas fa-music" : "fas fa-file-alt");
+    }
+
+    getColor(type) {
+        return type === "image" ? "#7c3aed" : (type === "audio" ? "#16a34a" : "#f97316");
+    }
+
+    async startUpload() {
+        alert("Upload simulation started!");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    new FileUploadComponent("fileUploadComponent");
+});
+</script>

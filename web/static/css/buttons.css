@@ -1,0 +1,334 @@
+/* --------------------------------------------
+   Base Button
+-------------------------------------------- */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* --------------------------------------------
+   Sizes
+-------------------------------------------- */
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+}
+
+.btn-md {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    border-radius: 1rem;
+}
+
+/* --------------------------------------------
+   Primary
+-------------------------------------------- */
+.btn-primary {
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #2563eb, #1d4ed8);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* --------------------------------------------
+   Secondary
+-------------------------------------------- */
+.btn-secondary {
+    background: linear-gradient(to right, #6b7280, #4b5563);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(to right, #4b5563, #374151);
+    transform: translateY(-2px);
+}
+
+/* --------------------------------------------
+   Success
+-------------------------------------------- */
+.btn-success {
+    background: linear-gradient(to right, #22c55e, #16a34a);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn-success:hover {
+    background: linear-gradient(to right, #16a34a, #15803d);
+    transform: translateY(-2px);
+}
+
+/* --------------------------------------------
+   Danger
+-------------------------------------------- */
+.btn-danger {
+    background: linear-gradient(to right, #ef4444, #dc2626);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(to right, #dc2626, #b91c1c);
+    transform: translateY(-2px);
+}
+
+/* --------------------------------------------
+   Warning
+-------------------------------------------- */
+.btn-warning {
+    background: linear-gradient(to right, #facc15, #eab308);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(to right, #eab308, #ca8a04);
+    transform: translateY(-2px);
+}
+
+/* --------------------------------------------
+   Outline Buttons
+-------------------------------------------- */
+.btn-outline-primary {
+    border: 2px solid #3b82f6;
+    color: #2563eb;
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-outline-secondary {
+    border: 2px solid #6b7280;
+    color: #4b5563;
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background: #6b7280;
+    color: white;
+}
+
+/* --------------------------------------------
+   Ghost Button
+-------------------------------------------- */
+.btn-ghost {
+    background: transparent;
+    color: inherit;
+}
+
+.btn-ghost:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+/* --------------------------------------------
+   Ripple Effect
+-------------------------------------------- */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* --------------------------------------------
+   Loading State
+-------------------------------------------- */
+.btn-loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn-loading .btn-text {
+    visibility: hidden;
+}
+
+.btn-loading::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: buttonSpinner 0.8s linear infinite;
+}
+
+@keyframes buttonSpinner {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------
+   Icon Buttons
+-------------------------------------------- */
+.btn-icon {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+}
+
+.btn-icon-sm {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.btn-icon-lg {
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+/* --------------------------------------------
+   Social Buttons
+-------------------------------------------- */
+.btn-google {
+    background: white;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-google:hover {
+    background: #f9fafb;
+}
+
+.btn-facebook {
+    background: #1e40af;
+    color: white;
+}
+
+.btn-facebook:hover {
+    background: #1e3a8a;
+}
+
+.btn-twitter {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-twitter:hover {
+    background: #2563eb;
+}
+
+/* --------------------------------------------
+   Floating Action Button (FAB)
+-------------------------------------------- */
+.fab {
+    border-radius: 999px;
+    width: 56px;
+    height: 56px;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.fab-sm {
+    width: 48px;
+    height: 48px;
+}
+
+.fab-lg {
+    width: 64px;
+    height: 64px;
+}
+
+/* --------------------------------------------
+   Button Group
+-------------------------------------------- */
+.btn-group {
+    display: inline-flex;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.btn-group .btn {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-group .btn:last-child {
+    border-right: none;
+}
+
+/* --------------------------------------------
+   Disabled
+-------------------------------------------- */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --------------------------------------------
+   Focus
+-------------------------------------------- */
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(147,197,253,0.7);
+}
+
+.btn-primary:focus { box-shadow: 0 0 0 3px rgba(59,130,246,0.7); }
+.btn-secondary:focus { box-shadow: 0 0 0 3px rgba(107,114,128,0.7); }
+.btn-success:focus { box-shadow: 0 0 0 3px rgba(34,197,94,0.7); }
+.btn-danger:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.7); }
+
+/* --------------------------------------------
+   Animations
+-------------------------------------------- */
+.btn-bounce:hover {
+    animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    80% { transform: translateY(-5px); }
+}
+
+.btn-wiggle:hover {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+.btn-pulse:hover {
+    animation: pulse 1s infinite;
+}

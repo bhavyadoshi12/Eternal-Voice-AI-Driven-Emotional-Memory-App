@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Progress Components</title>
+
+<!-- TailwindCSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* Circular Animation */
+.circular-progress-animate {
+    animation: circular-progress 0.3s ease-out forwards;
+}
+@keyframes circular-progress {
+    from { stroke-dashoffset: 251.2; }
+}
+
+/* Progress Pulse */
+@keyframes progress-pulse {
+    0%,100% { opacity:1; }
+    50% { opacity:0.7; }
+}
+.progress-pulse {
+    animation: progress-pulse 2s ease-in-out infinite;
+}
+</style>
+
+</head>
+
+<body class="p-6 bg-gray-100">
+
+<!-- ============================================= -->
+<!-- MAIN COMPONENT WRAPPER -->
+<!-- ============================================= -->
+<div id="progressBarComponent" class="w-full space-y-6">
+
+    <!-- SIMPLE PROGRESS -->
+    <div id="simpleProgress" class="hidden">
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-gray-700" id="progressTitle">Processing...</span>
+            <span class="text-sm font-semibold text-blue-600" id="progressPercentage">0%</span>
+        </div>
+
+        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+            <div id="simpleProgressBar"
+                 class="bg-blue-600 h-3 rounded-full transition-all duration-300"
+                 style="width:0%">
+            </div>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-1" id="progressMessage">Initializing...</p>
+    </div>
+
+    <!-- DETAILED PROGRESS -->
+    <div id="detailedProgress" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-sync-alt text-blue-600 text-sm"></i>
+                </div>
+
+                <div>
+                    <h4 id="detailedProgressTitle" class="font-semibold text-gray-800">Processing</h4>
+                    <p id="detailedProgressSubtitle" class="text-sm text-gray-600">Step 1 of 5</p>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <span id="detailedProgressPercentage" class="text-lg font-bold text-blue-600">0%</span>
+                <p id="detailedProgressTime" class="text-xs text-gray-500">Estimating time...</p>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+                <span id="progressStep" class="text-gray-600">Initializing...</span>
+                <span id="progressStats" class="text-gray-600">0/0 files</span>
+            </div>
+
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div id="detailedProgressBar"
+                     class="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all"
+                     style="width:0%">
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                <p id="completedCount" class="text-2xl font-bold text-green-600">0</p>
+                <p class="text-xs text-gray-600">Completed</p>
+            </div>
+
+            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                <p id="remainingCount" class="text-2xl font-bold text-yellow-600">0</p>
+                <p class="text-xs text-gray-600">Remaining</p>
+            </div>
+        </div>
+
+        <div id="progressSteps" class="space-y-2"></div>
+
+        <div class="flex space-x-3 pt-4 border-t border-gray-200">
+            <button id="pauseProgress" class="px-3 py-1 rounded-lg border border-blue-500 text-blue-600 text-sm flex items-center">
+                <i class="fas fa-pause mr-2"></i>Pause
+            </button>
+
+            <button id="cancelProgress" class="px-3 py-1 rounded-lg border border-red-500 text-red-600 text-sm flex items-center">
+                <i class="fas fa-times mr-2"></i>Cancel
+            </button>
+
+            <div class="flex-1"></div>
+
+            <button id="hideProgress" class="px-3 py-1 rounded-lg bg-gray-200 text-gray-700 text-sm flex items-center">
+                <i class="fas fa-eye-slash mr-2"></i>Hide
+            </button>
+        </div>
+    </div>
+
+    <!-- CIRCULAR PROGRESS -->
+    <div id="circularProgress" class="hidden flex flex-col items-center p-6">
+        <div class="relative w-20 h-20 mb-4">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" stroke="#e5e7eb" stroke-width="8" fill="none"></circle>
+
+                <circle id="circularProgressBar"
+                        cx="50" cy="50" r="40"
+                        stroke="#3b82f6" stroke-width="8"
+                        stroke-linecap="round"
+                        stroke-dasharray="251.2"
+                        stroke-dashoffset="251.2">
+                </circle>
+            </svg>
+
+            <div class="absolute inset-0 flex items-center justify-center">
+                <span id="circularProgressText" class="text-lg font-bold text-blue-600">0%</span>
+            </div>
+        </div>
+
+        <h4 id="circularProgressTitle" class="font-semibold text-gray-800">Processing</h4>
+        <p id="circularProgressMessage" class="text-sm text-gray-600 text-center">Please wait...</p>
+    </div>
+
+    <!-- STEP PROGRESS -->
+    <div id="stepProgress" class="hidden">
+        <div class="flex items-center justify-between mb-6">
+            <h4 id="stepProgressTitle" class="font-semibold text-gray-800">Multi-step Process</h4>
+            <span id="stepProgressStatus"
+                  class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                  Step 1 of 5
+            </span>
+        </div>
+
+        <div id="stepProgressContainer" class="space-y-4"></div>
+
+        <div class="flex space-x-3 mt-6 pt-4 border-t border-gray-200">
+            <button id="prevStep" class="px-3 py-1 rounded-lg border border-blue-500 text-blue-600 text-sm flex items-center" disabled>
+                <i class="fas fa-arrow-left mr-2"></i>Previous
+            </button>
+
+            <button id="nextStep" class="px-3 py-1 rounded-lg bg-blue-600 text-white text-sm flex items-center">
+                Next <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+
+            <div class="flex-1"></div>
+
+            <button id="skipStep" class="px-3 py-1 rounded-lg border border-gray-400 text-gray-700 text-sm">
+                Skip Step
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- FLOATING NOTIFICATION -->
+<div id="progressNotification"
+     class="fixed bottom-4 right-4 bg-white rounded-xl shadow-lg border p-4 max-w-sm hidden 
+            transform transition-all duration-300 translate-y-4 opacity-0">
+
+    <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+            <i class="fas fa-sync-alt text-blue-600 text-sm"></i>
+        </div>
+
+        <div class="flex-1 min-w-0">
+            <h5 id="notificationTitle" class="font-semibold text-gray-800 text-sm">Processing</h5>
+            <p id="notificationMessage" class="text-xs text-gray-600 truncate">Task in progress...</p>
+
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-1">
+                <div id="notificationProgressBar"
+                     class="bg-blue-600 h-1 rounded-full transition-all"
+                     style="width:0%">
+                </div>
+            </div>
+        </div>
+
+        <button id="closeNotification" class="text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+<!-- ===================================================== -->
+<!-- ==================== JS LOGIC ======================= -->
+<!-- ===================================================== -->
+<script>
+class ProgressBarManager {
+
+    constructor() {
+        this.currentProgress = 0;
+        this.totalSteps = 0;
+        this.currentStep = 0;
+        this.progressType = 'simple';
+        this.isVisible = false;
+
+        this.initEvents();
+    }
+
+    initEvents() {
+        document.getElementById("pauseProgress")?.addEventListener("click", () => this.togglePause());
+        document.getElementById("cancelProgress")?.addEventListener("click", () => this.cancelProgress());
+        document.getElementById("hideProgress")?.addEventListener("click", () => this.hideProgress());
+        document.getElementById("closeNotification")?.addEventListener("click", () => this.hideNotification());
+
+        document.getElementById("prevStep")?.addEventListener("click", () => this.previousStep());
+        document.getElementById("nextStep")?.addEventListener("click", () => this.nextStep());
+        document.getElementById("skipStep")?.addEventListener("click", () => this.skipStep());
+    }
+
+    hideAll() {
+        ["simpleProgress", "detailedProgress", "circularProgress", "stepProgress"]
+            .forEach(id => document.getElementById(id)?.classList.add("hidden"));
+    }
+
+    /* SIMPLE */
+    showSimple(title = "Processing…") {
+        this.progressType = "simple";
+        this.hideAll();
+
+        document.getElementById("simpleProgress").classList.remove("hidden");
+        document.getElementById("progressTitle").textContent = title;
+
+        this.isVisible = true;
+    }
+
+    updateSimple(percent, message = "") {
+        percent = Math.min(100, Math.max(0, percent));
+        this.currentProgress = percent;
+
+        document.getElementById("simpleProgressBar").style.width = percent + "%";
+        document.getElementById("progressPercentage").textContent = percent + "%";
+
+        if (message) document.getElementById("progressMessage").textContent = message;
+    }
+
+    /* DETAILED */
+    showDetailed(title = "Processing", subtitle = "") {
+        this.progressType = "detailed";
+        this.hideAll();
+
+        document.getElementById("detailedProgress").classList.remove("hidden");
+        document.getElementById("detailedProgressTitle").textContent = title;
+        document.getElementById("detailedProgressSubtitle").textContent = subtitle;
+
+        this.isVisible = true;
+    }
+
+    updateDetailed(percent, stepText = "", stats = "") {
+        percent = Math.min(100, Math.max(0, percent));
+        this.currentProgress = percent;
+
+        document.getElementById("detailedProgressBar").style.width = percent + "%";
+        document.getElementById("detailedProgressPercentage").textContent = percent + "%";
+
+        if (stepText) document.getElementById("progressStep").textContent = stepText;
+        if (stats) document.getElementById("progressStats").textContent = stats;
+
+        this.updateTime();
+    }
+
+    updateTime() {
+        const elem = document.getElementById("detailedProgressTime");
+
+        if (this.currentProgress === 0) elem.textContent = "Estimating time…";
+        else if (this.currentProgress === 100) elem.textContent = "Completed";
+        else {
+            const remaining = Math.round((100 - this.currentProgress) * 0.3);
+            elem.textContent = `~${remaining}s remaining`;
+        }
+    }
+
+    updateCounts(done, total) {
+        document.getElementById("completedCount").textContent = done;
+        document.getElementById("remainingCount").textContent = total - done;
+    }
+
+    addStep(text) {
+        const container = document.getElementById("progressSteps");
+
+        const box = document.createElement("div");
+        box.className = "flex items-center space-x-3 p-2 rounded-lg bg-gray-50";
+
+        box.innerHTML = `
+            <div class="w-3 h-3 rounded-full bg-gray-300 step-indicator"></div>
+            <span class="text-sm text-gray-700">${text}</span>
+        `;
+
+        container.appendChild(box);
+    }
+
+    setStepStatus(index, status) {
+        const map = {
+            pending: "bg-gray-300",
+            active: "bg-blue-500 progress-pulse",
+            completed: "bg-green-500",
+            error: "bg-red-500"
+        };
+
+        const items = document.querySelectorAll(".step-indicator");
+        if (items[index]) items[index].className = `w-3 h-3 rounded-full ${map[status]}`;
+    }
+
+    /* CIRCULAR */
+    showCircular(title = "Processing", message = "Please wait…") {
+        this.progressType = "circular";
+        this.hideAll();
+
+        document.getElementById("circularProgress").classList.remove("hidden");
+        document.getElementById("circularProgressTitle").textContent = title;
+        document.getElementById("circularProgressMessage").textContent = message;
+
+        this.isVisible = true;
+    }
+
+    updateCircular(percent, message = "") {
+        percent = Math.min(100, Math.max(0, percent));
+        this.currentProgress = percent;
+
+        const circle = document.getElementById("circularProgressBar");
+        const text = document.getElementById("circularProgressText");
+
+        const circumference = 251.2;
+        circle.style.strokeDashoffset = circumference - (percent / 100) * circumference;
+
+        text.textContent = percent + "%";
+
+        if (message) {
+            document.getElementById("circularProgressMessage").textContent = message;
+        }
+    }
+
+    /* STEP SYSTEM */
+    showSteps(title, steps = []) {
+        this.progressType = "step";
+        this.hideAll();
+
+        document.getElementById("stepProgress").classList.remove("hidden");
+        document.getElementById("stepProgressTitle").textContent = title;
+
+        this.totalSteps = steps.length;
+        this.currentStep = 0;
+
+        const container = document.getElementById("stepProgressContainer");
+        container.innerHTML = "";
+
+        steps.forEach((step, i) => {
+            const div = document.createElement("div");
+
+            const state =
+                i === 0 ? "border-blue-500 bg-blue-50 scale-105" :
+                "border-gray-200 bg-gray-50";
+
+            div.className =
+                `flex items-center space-x-4 p-4 rounded-xl border-2 transition-all duration-300 ${state}`;
+
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold
+                    ${i===0 ? "border-blue-500 bg-blue-500 text-white" : "border-gray-300 bg-white text-gray-400"}">
+                    ${i + 1}
+                </div>
+
+                <div class="flex-1">
+                    <h5 class="font-medium text-gray-800">${step.title}</h5>
+                    <p class="text-sm text-gray-600">${step.description}</p>
+                </div>
+
+                <div class="step-status">
+                    <i class="fas fa-clock text-gray-400"></i>
+                </div>
+            `;
+
+            container.appendChild(div);
+        });
+
+        this.updateStepUI();
+        this.isVisible = true;
+    }
+
+    nextStep() {
+        if (this.currentStep < this.totalSteps - 1) {
+            this.currentStep++;
+            this.updateStepUI();
+        }
+    }
+
+    previousStep() {
+        if (this.currentStep > 0) {
+            this.currentStep--;
+            this.updateStepUI();
+        }
+    }
+
+    skipStep() {
+        this.nextStep();
+    }
+
+    updateStepUI() {
+        const items = document.querySelectorAll("#stepProgressContainer .step-item");
+
+        const statusBadge = document.getElementById("stepProgressStatus");
+        statusBadge.textContent = `Step ${this.currentStep + 1} of ${this.totalSteps}`;
+
+        document.querySelectorAll("#stepProgressContainer .step-item").forEach((item, i) => {
+            if (i < this.currentStep) {
+                item.className =
+                    "step-item flex items-center space-x-4 p-4 rounded-xl border-2 border-green-500 bg-green-50";
+            } else if (i === this.currentStep) {
+                item.className =
+                    "step-item flex items-center space-x-4 p-4 rounded-xl border-2 border-blue-500 bg-blue-50 scale-105";
+            } else {
+                item.className =
+                    "step-item flex items-center space-x-4 p-4 rounded-xl border-2 border-gray-200 bg-gray-50";
+            }
+        });
+
+        document.getElementById("prevStep").disabled = this.currentStep === 0;
+
+        const nextBtn = document.getElementById("nextStep");
+        nextBtn.innerHTML =
+            this.currentStep === this.totalSteps - 1
+                ? `Finish <i class="fas fa-check ml-2"></i>`
+                : `Next <i class="fas fa-arrow-right ml-2"></i>`;
+    }
+
+    /* NOTIFICATION */
+    notify(title, message, percent = 0) {
+        const box = document.getElementById("progressNotification");
+
+        document.getElementById("notificationTitle").textContent = title;
+        document.getElementById("notificationMessage").textContent = message;
+        document.getElementById("notificationProgressBar").style.width = percent + "%";
+
+        box.classList.remove("hidden");
+
+        setTimeout(() => {
+            box.classList.remove("translate-y-4", "opacity-0");
+        }, 10);
+    }
+
+    hideNotification() {
+        const box = document.getElementById("progressNotification");
+        box.classList.add("translate-y-4", "opacity-0");
+
+        setTimeout(() => box.classList.add("hidden"), 300);
+    }
+
+    /* CONTROL BUTTONS */
+    togglePause() {
+        const btn = document.getElementById("pauseProgress");
+        const paused = btn.innerHTML.includes("play");
+
+        btn.innerHTML = paused
+            ? `<i class="fas fa-pause mr-2"></i>Pause`
+            : `<i class="fas fa-play mr-2"></i>Resume`;
+    }
+
+    cancelProgress() {
+        if (confirm("Are you sure you want to cancel?")) {
+            this.hideProgress();
+        }
+    }
+
+    hideProgress() {
+        this.hideAll();
+        this.hideNotification();
+        this.isVisible = false;
+    }
+}
+
+/* ========================================================= */
+/* Create global instance */
+/* ========================================================= */
+const Progress = new ProgressBarManager();
+</script>
+
+</body>
+</html>

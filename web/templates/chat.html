@@ -1,0 +1,288 @@
+<!-- Chat Page Content Start -->
+
+<!-- Chat Page Content Start -->
+<div class="fade-in">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <div class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Chat Interface</h1>
+                    <p class="text-gray-600 text-lg">Have conversations with reconstructed memories</p>
+                </div>
+                <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center">
+                    <i class="fas fa-comments text-white text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Chat Main Section -->
+        <div class="lg:col-span-3">
+            <!-- Profile Selection & Controls -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 mb-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <h2 class="text-xl font-bold text-gray-800">Active Conversation</h2>
+                        <div id="profileBadge" class="hidden">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <!-- Profile Selector -->
+                        <div class="relative">
+                            <select id="profileSelector" class="appearance-none bg-gray-50 border border-gray-300 rounded-xl px-4 py-2 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                <option value="">Select Profile...</option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <button id="buildPersonaBtn" class="btn btn-outline-primary btn-sm hidden">
+                            <i class="fas fa-brain mr-2"></i>Build Persona
+                        </button>
+                        
+                        <button id="clearChatBtn" class="btn btn-outline-danger btn-sm hidden">
+                            <i class="fas fa-trash mr-2"></i>Clear Chat
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Persona Status -->
+                <div id="personaStatus" class="mt-4 hidden">
+                    <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                        <div class="loading-spinner small blue"></div>
+                        <div>
+                            <p class="font-medium text-blue-700">Building Persona Profile...</p>
+                            <p class="text-sm text-blue-600">Analyzing communication patterns and emotional tone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <!-- Chat Messages -->
+                <div id="chatContainer" class="h-96 overflow-y-auto p-6 space-y-4 bg-gray-50">
+                    <!-- Welcome Message -->
+                    <div id="welcomeMessage" class="text-center py-12">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-comments text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Start a Conversation</h3>
+                        <p class="text-gray-500">Select a profile and begin chatting with reconstructed memories</p>
+                    </div>
+                    
+                    <!-- Chat messages will be dynamically inserted here -->
+                </div>
+
+                <!-- Chat Input -->
+                <div class="border-t border-gray-200 p-6">
+                    <div class="flex space-x-4">
+                        <div class="flex-1">
+                            <textarea 
+                                id="messageInput" 
+                                placeholder="Type your message here..." 
+                                rows="3"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-colors"
+                                disabled
+                            ></textarea>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <button id="sendButton" class="btn btn-primary btn-lg h-full px-6" disabled>
+                                <i class="fas fa-paper-plane mr-2"></i>Send
+                            </button>
+                            <button id="voiceToggle" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-volume-up mr-2"></i>Voice
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Typing Indicator -->
+                    <div id="typingIndicator" class="hidden mt-4 flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                        <span class="text-blue-700 font-medium" id="typingText">AI is thinking...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversation Statistics -->
+            <div id="conversationStats" class="mt-6 bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hidden">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Conversation Statistics</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <p class="text-2xl font-bold text-blue-600" id="totalMessages">0</p>
+                        <p class="text-sm text-gray-600">Total Messages</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <p class="text-2xl font-bold text-green-600" id="avgResponseTime">0s</p>
+                        <p class="text-sm text-gray-600">Avg Response Time</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <p class="text-2xl font-bold text-purple-600" id="dominantEmotion">-</p>
+                        <p class="text-sm text-gray-600">Dominant Emotion</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-xl">
+                        <p class="text-2xl font-bold text-orange-600" id="conversationDuration">-</p>
+                        <p class="text-sm text-gray-600">Duration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar - Persona Insights -->
+        <div class="space-y-6">
+            <!-- Persona Details -->
+            <div id="personaDetails" class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hidden">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-user-circle text-blue-500 mr-2"></i>
+                    Persona Insights
+                </h3>
+                
+                <div class="space-y-4">
+                    <!-- Writing Style -->
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Writing Style</h4>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Sentence Length</span>
+                            <span class="font-semibold" id="sentenceLength">-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Vocabulary</span>
+                            <span class="font-semibold" id="vocabularyComplexity">-</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Formality</span>
+                            <span class="font-semibold" id="formalityLevel">-</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Emotional Tone -->
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Emotional Tone</h4>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="text-sm text-gray-600">Primary:</span>
+                            <span id="primaryEmotion" class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">-</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="emotionConfidence" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Confidence: <span id="confidenceValue">0%</span></p>
+                    </div>
+                    
+                    <!-- Common Phrases -->
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Common Phrases</h4>
+                        <div id="commonPhrases" class="flex flex-wrap gap-1">
+                            <!-- Phrases will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                <div class="space-y-3">
+                    <button id="exportChatBtn" class="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-all">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-download text-green-500"></i>
+                            <span class="font-medium text-gray-700">Export Conversation</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    
+                    <button id="voiceSettingsBtn" class="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-cog text-purple-500"></i>
+                            <span class="font-medium text-gray-700">Voice Settings</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    
+                    <button id="suggestionsBtn" class="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-lightbulb text-yellow-500"></i>
+                            <span class="font-medium text-gray-700">Conversation Starters</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TTS Status -->
+            <div id="ttsStatus" class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-volume-up text-green-500 mr-2"></i>
+                    Voice Settings
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-600">Text-to-Speech</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="ttsToggle" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    
+                    <div id="voiceSettings" class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Voice</label>
+                            <select id="voiceSelector" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="default">Default Voice</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Speech Rate</label>
+                            <input type="range" id="speechRate" min="50" max="300" value="150" class="w-full">
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>Slow</span>
+                                <span id="rateValue">Normal</span>
+                                <span>Fast</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Conversation Starters Modal -->
+<div id="suggestionsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md mx-4">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Conversation Starters</h3>
+        <div class="space-y-3">
+            <button class="suggestion-btn w-full text-left p-3 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">
+                "Tell me about your favorite memories"
+            </button>
+            <button class="suggestion-btn w-full text-left p-3 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">
+                "What's your opinion on [topic]?"
+            </button>
+            <button class="suggestion-btn w-full text-left p-3 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">
+                "How was your day today?"
+            </button>
+            <button class="suggestion-btn w-full text-left p-3 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">
+                "Share a story from your past"
+            </button>
+            <button class="suggestion-btn w-full text-left p-3 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all">
+                "What advice would you give about life?"
+            </button>
+        </div>
+        <div class="mt-6 flex justify-end">
+            <button id="closeSuggestionsBtn" class="btn btn-secondary">Close</button>
+        </div>
+    </div>
+</div>
+<!-- Chat Page Content End -->
+
+<!-- Chat Page Scripts Start -->
+<script src="/static/js/chat.js"></script>
+<!-- Chat Page Scripts End -->
