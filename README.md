@@ -41,6 +41,19 @@ Eternal Voice is a desktop application that helps you reconstruct the communicat
 ### Installation
 
 1. **Download and extract** the Eternal Voice application
-2. **Run the setup script**:
+2. **Run the requirements script**:
+    ```bash
+
+   python -r requirements.txt
+
+4. **Run the setup script**:
    ```bash
+
    python scripts/setup_environment.py
+
+5. **Run the main script**:
+   ```bash
+
+   python app.py
+
+   
